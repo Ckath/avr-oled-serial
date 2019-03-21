@@ -1,5 +1,6 @@
 /* see LICENSE file for copyright and license details. */
 
+#include <string.h>
 #include "lib/usart.h"
 #include "lib/lcd.h"
 
@@ -17,12 +18,18 @@ main (void)
 		USART_getstr(buf);
 		switch (buf[0]) {
 			case 'W': /* Wn str, write str to row n */
-			  lcd_gotoxy(0, buf[1]-'0');
-			  lcd_puts(buf+3);
-			  break;
+				lcd_gotoxy(0, buf[1]-'0');
+				lcd_puts(buf+3);
+				break;
+			case 'P':; /* Px,y str, write str to position x,y */
+				uint8_t x = 0, y = 0;
+				sscanf(buf, "P%d,%d", &x, &y);
+				lcd_gotoxy(x, y);
+				lcd_puts(strchr(buf, ' ')+1);
+				break;
 			case 'C': /* C, clear screen */
-			  lcd_clrscr();
-			  break;
+				lcd_clrscr();
+				break;
 		}
 	}
 }

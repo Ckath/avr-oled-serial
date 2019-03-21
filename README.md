@@ -6,10 +6,11 @@ simple avr program exposing some oled library functions over a serial connection
 open a serial connection baudrate `115200`,\
 use the commandset:
 
-cmd    | action
----    | ---
-Wn str | write *str* to row *n*
-C      | clear screen
+cmd      | action
+---      | ---
+Wn str   | write *str* to row *n*
+C        | clear screen
+Px,y str | write *str* to position *x*,*y*
 
 ## todo
 - test support for 128x64 display
