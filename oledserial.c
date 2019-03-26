@@ -12,6 +12,7 @@ main (void)
 	lcd_init(LCD_DISP_ON);
 
 	char buf[256]; /* 256 bytes ought to be enough for anyone */
+	uint8_t inverted = !INVERTED;
 
 	/* take and parse input from serial */
 	for (;;) {
@@ -26,6 +27,9 @@ main (void)
 				sscanf(buf, "P%d,%d", &x, &y);
 				lcd_gotoxy(x, y);
 				lcd_puts(strchr(buf, ' ')+1);
+				break;
+			case 'I': /* I, invert screen */
+				lcd_invert((inverted=!inverted));
 				break;
 			case 'C': /* C, clear screen */
 				lcd_clrscr();

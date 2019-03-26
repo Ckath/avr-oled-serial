@@ -10,6 +10,7 @@ cmd      | action
 ---      | ---
 Wn str   | write *str* to row *n*
 Px,y str | write *str* to position *x*,*y*
+I        | invert screen
 C        | clear screen
 
 ## todo
