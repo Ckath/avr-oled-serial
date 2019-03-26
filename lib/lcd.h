@@ -37,16 +37,10 @@
  *  first dev-version only for I2C-Connection
  *  at ATMega328P like Arduino Uno
  *
- *  at GRAPHICMODE lib needs SRAM for display
- *  DISPLAY-WIDTH * DISPLAY-HEIGHT + 2 bytes
  */
 
 #ifndef LCD_H
 #define LCD_H
-
-#ifdef __cplusplus
-extern "C" {
-#endif
     
 #if (__GNUC__ * 100 + __GNUC_MINOR__) < 303
 #error "This library requires AVR-GCC 3.3 or later, update to newer AVR-GCC compiler !"
@@ -76,55 +70,33 @@ extern "C" {
     // e.g. 8 bit slave-adress:
     // 0x78 = adress 0x3C with cleared r/w-bit (write-mode)
     
-    
-#ifndef YES
-#define YES        1
-#endif
-
-#define NORMALSIZE 1
-#define DOUBLESIZE 2
+#define NORMALSIZE          1
+#define DOUBLESIZE          2
     
 #define LCD_DISP_OFF        0xAE
-#define LCD_DISP_ON        0xAF
+#define LCD_DISP_ON         0xAF
     
-#define WHITE            0x01
-#define BLACK            0x00
+#define WHITE               0x01
+#define BLACK               0x00
+
+#define INVERTED			0
     
-#define DISPLAY_WIDTH        128
-#define DISPLAY_HEIGHT        32
+#define DISPLAY_WIDTH       128
+#define DISPLAY_HEIGHT      32
     
-    
-    
-    void lcd_command(uint8_t cmd[], uint8_t size);    // transmit command to display
-    void lcd_data(uint8_t data[], uint16_t size);    // transmit data to display
+    void lcd_command(uint8_t cmd[], uint8_t size); // transmit command to display
+    void lcd_data(uint8_t data[], uint16_t size);  // transmit data to display
     void lcd_init(uint8_t dispAttr);
-    void lcd_home(void);                            // set cursor to 0,0
-    void lcd_invert(uint8_t invert);        // invert display
-    void lcd_sleep(uint8_t sleep);            // display goto sleep (power off)
-    void lcd_set_contrast(uint8_t contrast);    // set contrast for display
-    void lcd_puts(const char* s);            // print string, \n-terminated, from ram on screen (TEXTMODE)
-    // or buffer (GRAPHICMODE)
-    void lcd_puts_p(const char* progmem_s);        // print string from flash on screen (TEXTMODE)
-    // or buffer (GRAPHICMODE)
+    void lcd_home(void);                           // set cursor to 0,0
+    void lcd_invert(uint8_t invert);               // invert display
+    void lcd_sleep(uint8_t sleep);                 // display goto sleep (power off)
+    void lcd_set_contrast(uint8_t contrast);       // set contrast for display
+    void lcd_puts(const char* s);                  // print string, \n-terminated, from ram on screen (TEXTMODE)
+
+    void lcd_clrscr(void);                         // clear screen
+    void lcd_gotoxy(uint8_t x, uint8_t y);         // set curser at pos x, y. x means character,
+                                                   // y means line (page, refer lcd manual)
+    void lcd_putc(char c);                         // print character on screen at TEXTMODE
+    void lcd_charMode(uint8_t mode);               // set size of chars
     
-    void lcd_clrscr(void);                // clear screen (and buffer at GRFAICMODE)
-    void lcd_gotoxy(uint8_t x, uint8_t y);        // set curser at pos x, y. x means character,
-    // y means line (page, refer lcd manual)
-    void lcd_putc(char c);                // print character on screen at TEXTMODE
-    // at GRAPHICMODE print character to buffer
-    void lcd_charMode(uint8_t mode);            // set size of chars
-#if defined GRAPHICMODE
-    void lcd_drawPixel(uint8_t x, uint8_t y, uint8_t color);
-    void lcd_drawLine(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint8_t color);
-    void lcd_drawRect(uint8_t px1, uint8_t py1, uint8_t px2, uint8_t py2, uint8_t color);
-    void lcd_fillRect(uint8_t px1, uint8_t py1, uint8_t px2, uint8_t py2, uint8_t color);
-    void lcd_drawCircle(uint8_t center_x, uint8_t center_y, uint8_t radius, uint8_t color);
-    void lcd_fillCircle(uint8_t center_x, uint8_t center_y, uint8_t radius, uint8_t color);
-    void lcd_drawBitmap(uint8_t x, uint8_t y, const uint8_t picture[], uint8_t width, uint8_t height, uint8_t color);
-    void lcd_display(void);                // copy buffer to display RAM
-#endif
-    
-#ifdef __cplusplus
-}
-#endif
 #endif /*  LCD_H  */
