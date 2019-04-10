@@ -82,7 +82,7 @@
 #define INVERTED			0
     
 #define DISPLAY_WIDTH       128
-#define DISPLAY_HEIGHT      32
+#define DISPLAY_HEIGHT      64
     
     void lcd_command(uint8_t cmd[], uint8_t size); // transmit command to display
     void lcd_data(uint8_t data[], uint16_t size);  // transmit data to display
