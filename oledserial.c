@@ -1,7 +1,7 @@
 /* see LICENSE file for copyright and license details. */
 
 #include <string.h>
-#include "lib/usart.h"
+#include "lib/circular_usart.h"
 #include "lib/lcd.h"
 
 void 

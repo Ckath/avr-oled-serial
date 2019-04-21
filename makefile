@@ -8,7 +8,7 @@ PROG=arduino
 F_CPU=16000000UL
 
 NAME=oledserial
-SRC= lib/font.c lib/i2c.c lib/lcd.c lib/usart.c ${NAME}.c
+SRC= lib/font.c lib/i2c.c lib/lcd.c lib/circular_usart.c ${NAME}.c
 OBJ = ${SRC:.c=.o}
 
 options:
