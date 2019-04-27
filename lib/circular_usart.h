@@ -3,6 +3,7 @@
 
 #ifndef CIRC_USART
 #define CIRC_USART
+#define BUFSIZE 200
 
 void USART_init(unsigned long int baud);
 char USART_getch(void);
