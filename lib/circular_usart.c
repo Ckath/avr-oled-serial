@@ -4,6 +4,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include "circular_usart.h"
+#include <util/atomic.h>
 
 char buf[BUFSIZE];
 uint16_t rx_ptr = 0;
@@ -12,7 +13,12 @@ uint16_t tx_ptr = 0;
 ISR(USART_RX_vect)
 {
 	/* write along buffer */
-	buf[++tx_ptr%BUFSIZE] = UDR0;
+	if (UDR0) {
+		ATOMIC_BLOCK(ATOMIC_FORCEON)
+		{
+			buf[++tx_ptr%BUFSIZE] = UDR0;
+		}
+	}
 }
 
 void USART_init(unsigned long int baud)
@@ -33,8 +39,20 @@ void USART_init(unsigned long int baud)
 char USART_getch(void)
 {
 	/* read from buffer up until write pointer */
-	while(rx_ptr == tx_ptr);
-	return buf[++rx_ptr%BUFSIZE];
+	uint16_t tx_copy;
+	do {
+		ATOMIC_BLOCK(ATOMIC_FORCEON)
+		{
+			tx_copy = tx_ptr;
+		}
+	} while(rx_ptr == tx_copy);
+
+	char c;
+	ATOMIC_BLOCK(ATOMIC_FORCEON)
+    {
+		c = buf[++rx_ptr%BUFSIZE];
+	}
+	return c;
 }
 
 void USART_getstr(char *str)
@@ -44,7 +62,6 @@ void USART_getstr(char *str)
 	do 
 	{
 		str[i++] = USART_getch();
-
 	} while (str[i-1] != '\r');
 
 	/* return \0 terminated string */
