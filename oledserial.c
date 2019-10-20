@@ -34,6 +34,10 @@ main (void)
 			case 'C': /* C, clear screen */
 				lcd_clrscr();
 				break;
+			case 'R': /* R, reset screen */
+				DDRB = 0xff;
+				PORTB = 0;
+				break;
 		}
 	}
 }

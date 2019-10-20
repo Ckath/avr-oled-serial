@@ -12,6 +12,7 @@ Wn str   | write *str* to row *n*
 Px,y str | write *str* to position *x*,*y*
 I        | invert screen
 C        | clear screen
+R        | reset device (experimental, only for uno, requires pin connected to reset)
 
 ## todo
 - add more commands
