@@ -20,7 +20,8 @@ options:
 .c.o: 
 	@echo CC -c $< 
 # -Os fucks up sscanf here
-	@avr-gcc -DF_CPU=${F_CPU} -mmcu=${MODEL} -c $< -o ${<:.c=.o}
+	@avr-gcc -Wno-multichar -Wno-overflow -DF_CPU=${F_CPU} -mmcu=${MODEL} -c $< -o ${<:.c=.o}
+
 
 ${NAME}: ${SRC} ${OBJ} 
 	@echo compiling binary
